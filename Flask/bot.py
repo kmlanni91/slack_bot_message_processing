@@ -5,10 +5,14 @@ import message
 
 from slackclient import SlackClient
 
+#create variable
 authed_teams = {}
 
+
+#define class bot
 class Bot(object):
 
+#initialize bot parameters and variables
     def __init__(self):
         super(Bot, self).__init__()
         self.name = 'pythonboardingbot'
@@ -22,6 +26,7 @@ class Bot(object):
 
         self.messages = {}
 
+#create authorization
     def auth(self, code):
 
         auth_response = self.client.api_call(
@@ -37,6 +42,7 @@ class Bot(object):
 
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
+#connect to messaging service
     def open_dm(self, user_id):
 
         new_dm = self.client.api_call("im.open",
@@ -44,7 +50,7 @@ class Bot(object):
         dm_id = new_dm["channel"]["id"]
         return dm_id
 
-
+#create method of storing messages
     def onboarding_message(self, team_id, user_id):
 
         if self.messages.get(team_id):
@@ -67,6 +73,7 @@ class Bot(object):
 
         message_obj.timestamp = timestamp
 
+#method to change the emoji of a message
     def update_emoji(self,team_id, user_id):
 
         completed_attachments = {"text": ":white_check_mark: "
@@ -86,6 +93,7 @@ class Bot(object):
 
         message_obj.timestamp = post_message["ts"]
 
+#method to update pin
     def update_pin(self, team_id, user_id):
 
         completed_attachments = {"text": ":white_check_mark: "
@@ -106,6 +114,7 @@ class Bot(object):
 
         message_obj.timestamp = post_message["ts"]
 
+#method to update share
     def update_share(self, team_id, user_id):
 
         completed_attachments = {"text": ":white_check_mark: "
