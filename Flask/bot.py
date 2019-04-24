@@ -43,3 +43,28 @@ class Bot(object):
             user=user_id)
         dm_id = new_dm["channel"]["id"]
         return dm_id
+
+
+    def onboarding_message(self, team_id, user_id):
+
+        if self.messages.get(team_id):
+            self.messages[team_id].update({user_id: message.Message()})
+        else:
+            self.messages[team_id] = {user_id: message.Message()}
+        message_obj = self.messages[team_id][user_id]
+
+        message_obj.channel = self.open_dm(user_id)
+
+        message_obj.create_attachments()
+        post_message = self.client.api_call("chat.postMessage",
+            channel=message_obj.channel,
+            username=self.name,
+            icon_emoji=self.emoji,
+            text=message_obj.text,
+            attachments=message_obj.attachments)
+
+        timestamp = post_message["ts"]
+
+        message_obj.timestamp = timestamp
+
+    
