@@ -67,4 +67,21 @@ class Bot(object):
 
         message_obj.timestamp = timestamp
 
-    
+    def update_emoji(self,team_id, user_id):
+
+        completed_attachments = {"text": ":white_check_mark: "
+            "~*Add an emoji reactioin to this "
+                "message*~ : thinking_face:",
+                "color": "#429FE0"}
+
+        message_obj = self.messages[team_id].get(user_id)
+
+        message_obj.emoji_attachment.update(completed_attachments)
+
+        post_message = self.client.api_call("chat.update",
+            channel=message_obj.channel,
+            ts=message_obj.timestamp,
+            text=message_obj.text,
+            attachments=message_obj.attachments)
+
+        message_obj.timestamp = post_message["ts"]
