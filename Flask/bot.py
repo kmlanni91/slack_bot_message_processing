@@ -37,4 +37,9 @@ class Bot(object):
 
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
 
-    
+    def open_dm(self, user_id):
+
+        new_dm = self.client.api_call("im.open",
+            user=user_id)
+        dm_id = new_dm["channel"]["id"]
+        return dm_id
