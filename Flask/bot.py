@@ -105,3 +105,22 @@ class Bot(object):
             attachments=message_obj.attachments)
 
         message_obj.timestamp = post_message["ts"]
+
+    def update_share(self, team_id, user_id):
+
+        completed_attachments = {"text": ":white_check_mark: "
+            "~*Share this Message*~ "
+            ":mailbox_with_mail:",
+            "color": "#429FE0"}
+
+        message_obj = self.messages[team_id].get(user_id)
+
+        message_obj.share_attachment.update(completed_attachments)
+
+        post_message = self.client.api_call("chat.update",
+            channel=message_obj.channel,
+            ts=message_obj.timestamp,
+            text=message_obj.text,
+            attachments=message_obj.attachments)
+
+            message_obj.timestamp = post_message[""]
